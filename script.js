@@ -61,7 +61,7 @@
   const downloadSampleBtn = $("download-sample");
   const useDemoBtn = $("use-demo");
   const resumeBtn = $("resume-btn");
-  const themeToggle = $("theme-toggle");
+  const themeToggle = $("themeToggle");
 
   const optShuffleQ = $("opt-shuffle-q");
   const optShuffleA = $("opt-shuffle-a");
