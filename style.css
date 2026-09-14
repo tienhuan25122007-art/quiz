@@ -1,8 +1,8 @@
 /* =====================================================================
-   QUIZMASTER — Design system lấy cảm hứng từ "Sổ Chi Tiêu"
-   Editorial · Warm paper · Fraunces serif · Gold accents
+   QUIZMASTER — Editorial design
    ===================================================================== */
 
+/* [FIX] Đảm bảo [hidden] luôn thắng mọi rule display khác */
 [hidden]{ display: none !important; }
 
 :root{
@@ -41,7 +41,7 @@
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-[data-theme="dark"]{
+html[data-theme="dark"]{
   --paper:      #0F1816;
   --paper-2:    #16201E;
   --surface:    #1B2725;
@@ -65,6 +65,13 @@
   --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
   --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
 }
+
+/* [FIX] Icon theme toggle — dùng !important để chắc chắn */
+.icon-sun, .icon-moon{
+  display: none;
+}
+html:not([data-theme="dark"]) #iconSun{ display: block !important; }
+html[data-theme="dark"] #iconMoon{ display: block !important; }
 
 *{ box-sizing: border-box; }
 
@@ -116,7 +123,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
 .brand{ display:flex; align-items:center; gap:12px; }
 .brand-mark{
   font-family: var(--font-display);
-  font-size: 30px;
+  font-size: 26px;
   color: var(--gold);
   font-style: italic;
   font-weight: 700;
@@ -153,6 +160,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   cursor:pointer;
   color: var(--ink-soft);
   transition: all 0.15s var(--ease);
+  position: relative;
 }
 .icon-btn:hover{
   border-color: var(--ink-soft);
@@ -160,6 +168,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   background: var(--paper-2);
 }
 .icon-btn:active{ transform: scale(0.95); }
+.icon-btn svg{ display: block; }
 
 /* ===================== BALANCE HERO ===================== */
 .balance-hero{
@@ -360,7 +369,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   color: var(--ink-soft);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 14px;
+  margin: 0 0 14px 0;
 }
 
 .options-grid{
@@ -475,7 +484,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   white-space: nowrap;
   font-size: 0.9rem;
 }
-.btn svg{ width: 15px; height: 15px; }
+.btn svg{ width: 15px; height: 15px; flex-shrink: 0; }
 .btn:active{ transform: scale(0.97); }
 .btn:disabled{ opacity: 0.4; cursor: not-allowed; }
 
@@ -541,6 +550,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   white-space: pre-wrap;
   color: var(--ink-soft);
   background: var(--surface);
+  margin: 0;
 }
 .c-q{ color: var(--ink); font-weight: 600; display: block; }
 .c-a{ color: var(--ink-soft); display: block; padding-left: 10px; }
@@ -643,7 +653,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: -0.01em;
-  margin-bottom: 22px;
+  margin: 0 0 22px 0;
   color: var(--ink);
 }
 
@@ -781,9 +791,9 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   font-size: 1.85rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin-bottom: 4px;
+  margin: 0 0 4px 0;
 }
-.result-sub{ color: var(--ink-soft); font-size: 0.9rem; }
+.result-sub{ color: var(--ink-soft); font-size: 0.9rem; margin: 0; }
 
 .score-ring-wrap{
   position: relative;
@@ -800,7 +810,7 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   stroke-linecap: round;
   stroke-dasharray: 326.7;
   stroke-dashoffset: 326.7;
-  transition: stroke-dashoffset 1.2s var(--ease);
+  transition: stroke-dashoffset 1.2s var(--ease), stroke 0.4s var(--ease);
 }
 .score-ring-text{
   position: absolute;
@@ -900,14 +910,14 @@ button, input, select, textarea{ font-family: inherit; font-size: inherit; color
   font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin: 0 0 8px 0;
   line-height: 1.45;
   color: var(--ink);
 }
 .review-item p{
   font-size: 0.85rem;
   color: var(--ink-soft);
-  margin-bottom: 3px;
+  margin: 0 0 3px 0;
   line-height: 1.5;
 }
 .review-item .your-answer{ color: var(--expense); font-weight: 700; }
