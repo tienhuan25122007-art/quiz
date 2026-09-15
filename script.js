@@ -67,6 +67,7 @@
   const optShuffleA = $("opt-shuffle-a");
   const optSound = $("opt-sound");
   const optTimer = $("opt-timer");
+  const optNumericOnly = $("opt-numeric-only");
   const optLimit = $("opt-limit");
 
   const questionCounter = $("question-counter");
@@ -176,6 +177,7 @@
       if (s.shuffleA !== undefined) optShuffleA.checked = s.shuffleA;
       if (s.sound !== undefined) optSound.checked = s.sound;
       if (s.timer !== undefined) optTimer.checked = s.timer;
+      if (s.numericOnly !== undefined) optNumericOnly.checked = s.numericOnly;
       soundEnabled = optSound.checked;
       timerEnabled = optTimer.checked;
     } catch (e) { /* ignore */ }
@@ -187,7 +189,8 @@
         shuffleQ: optShuffleQ.checked,
         shuffleA: optShuffleA.checked,
         sound: optSound.checked,
-        timer: optTimer.checked
+        timer: optTimer.checked,
+        numericOnly: optNumericOnly.checked
       }));
     } catch (e) {}
   }
@@ -351,7 +354,7 @@
     });
     if (resumeBtn) resumeBtn.addEventListener("click", resumeProgress);
 
-    [optShuffleQ, optShuffleA, optSound, optTimer].forEach(function (el) {
+    [optShuffleQ, optShuffleA, optSound, optTimer, optNumericOnly].forEach(function (el) {
       if (el) el.addEventListener("change", function () {
         soundEnabled = optSound.checked;
         timerEnabled = optTimer.checked;
@@ -525,10 +528,27 @@
   }
 
   // ============ START ============
+  function hasNumericOptions(question) {
+    if (!question || !Array.isArray(question.options) || question.options.length < 2) return false;
+
+    return question.options.every(function (option) {
+      // Chấp nhận số nguyên, số âm và số thập phân; không nhận lựa chọn có kèm chữ.
+      return /^[+-]?(?:\d+(?:[.,]\d+)?|[.,]\d+)$/.test(String(option).trim());
+    });
+  }
+
   function startQuiz(questions) {
     console.log("[QuizMaster] startQuiz with", questions.length, "questions");
     allQuestions = questions.map(function (q) { return Object.assign({}, q); });
     let qs = allQuestions.slice();
+
+    if (optNumericOnly.checked) {
+      qs = qs.filter(hasNumericOptions);
+      if (qs.length === 0) {
+        toast("Không tìm thấy câu nào có toàn bộ đáp án là số/năm.", "error");
+        return;
+      }
+    }
 
     const limit = parseInt(optLimit.value, 10);
     if (limit > 0 && limit < qs.length) {
